@@ -15,4 +15,21 @@ env_logger = "*"
 name = "node"
 path = "src/node.rs"
 
+[[bin]]
+name = "node0"
+path = "src/node0.rs"
+
+[[bin]]
+name = "node1"
+path = "src/node1.rs"
+
+[[bin]]
+name = "node2"
+path = "src/node2.rs"
+
+[[bin]]
+name = "node3"
+path = "src/node3.rs"
+
+
 

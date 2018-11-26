@@ -44,7 +44,7 @@ fn main() {
     };
 
     // Listen on all interfaces and whatever port the OS assigns
-    let addr = libp2p::Swarm::listen_on(&mut swarm, "/ip4/0.0.0.0/tcp/0".parse().unwrap()).unwrap();
+    let addr = libp2p::Swarm::listen_on(&mut swarm, "/ip4/0.0.0.0/tcp/8002".parse().unwrap()).unwrap();
     println!("Listening on {:?}", addr);
 
     // Reach out to another node
@@ -61,6 +61,19 @@ fn main() {
         }
     }
 
+    if let Some(to_dial) = std::env::args().nth(2) {
+        let dialing = to_dial.clone();
+        match to_dial.parse() {
+            Ok(to_dial) => {
+                match libp2p::Swarm::dial_addr(&mut swarm, to_dial) {
+                    Ok(_) => println!("Dialed {:?}", dialing),
+                    Err(e) => println!("Dial {:?} failed: {:?}", dialing, e)
+                }
+            },
+            Err(err) => println!("Failed to parse address to dial: {:?}", err),
+        }
+    }
+    
     // Read full lines from stdin
     let stdin = tokio_stdin_stdout::stdin(0);
     let mut framed_stdin = FramedRead::new(stdin, LinesCodec::new());
